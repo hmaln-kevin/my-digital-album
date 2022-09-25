@@ -57,25 +57,31 @@ class FiguresController < ApplicationController
       format.json { head :no_content }
     end
   end
-  # Method to show a random combination of figures
+  # Open Pack /open_pack
   def open_pack
-    @figures = Figure.all
-    @pack = current_user.figures
-
-    for a in 1..4
-      @pack << @figures.shuffle.first
-    end
-    respond_to do |format|
-      if current_user.save
-        # format.html { redirect_to figures_url, notice: "You got #{p.first.name}, #{p.second.name}, #{p.third.name}, #{p.fourth.name}"}
-        format.html { redirect_to figures_url, notice: "You opened you pack"}
-        format.json { head :no_content }
-      else
-        format.html { redirect_to figures_url, notice: "Something went wrong"}
-        format.json { head :no_content }
-      end         
+    if current_user.enough_pack && current_user.can_open
+      respond_to do |format|
+        format.html { redirect_to figures_url, notice: "You got #{Figure.pack_open(current_user)}"}
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to figures_url, notice: "You dont have enough packs! / You reached the daily opening limit!"}
+      end
     end
   end
+
+  def get_free_pack
+    if current_user.free_pack
+      respond_to do |format|
+        format.html { redirect_to figures_url, notice: "You got a new pack!" }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to figures_url, notice: "You already claimed your daily pack, come back tomorrow!"}
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_figure

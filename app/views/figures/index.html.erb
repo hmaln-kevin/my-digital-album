@@ -32,6 +32,6 @@
 
 <br>
 
-<%= link_to 'New Figure', new_figure_path %>
-<%= link_to 'Open Pack', open_pack_path %>
-
+<%= link_to 'New Figure', new_figure_path %> |
+<%= link_to "Open Pack (#{current_user.unopened})", open_pack_path %> | 
+<%= link_to 'Claim you daily pack', free_pack_path %>

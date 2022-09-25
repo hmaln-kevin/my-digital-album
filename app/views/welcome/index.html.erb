@@ -1,3 +1,7 @@
 <h1>Welcome to the NFT Album Project!</h1>
 <p>Collect famous NFTs as virtual stickers! Click bellow to acess your collection.</p>
 <%= link_to "My collection", "/figures"%> | <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+<% if user_signed_in? %>
+<%= current_user.last_sign_in_at %>
+<%= current_user.current_sign_in_at %>
+<% end %>
